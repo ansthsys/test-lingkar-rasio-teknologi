@@ -4,7 +4,7 @@ import "preline";
 import "preline/preline";
 
 import { createRoot } from "react-dom/client";
-import { createInertiaApp } from "@inertiajs/react";
+import { createInertiaApp, router } from "@inertiajs/react";
 import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 import { HSStaticMethods } from "preline";
 
@@ -36,6 +36,11 @@ createInertiaApp({
         const root = createRoot(el);
 
         root.render(<App {...props} />);
+
+        router.on("navigate", (event) => {
+            HSStaticMethods.autoInit();
+            console.log(`Navigated to ${event.detail.page.url}`);
+        });
 
         delete el.dataset.page;
     },
