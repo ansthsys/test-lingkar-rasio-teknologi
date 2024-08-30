@@ -9,6 +9,7 @@
         "@headlessui/react": "^2.0.0",
         "@inertiajs/react": "^1.0.0",
         "@tailwindcss/forms": "^0.5.3",
+        "@types/lodash": "^4.17.7",
         "@types/node": "^18.13.0",
         "@types/react": "^18.0.28",
         "@types/react-dom": "^18.0.10",
@@ -25,6 +26,7 @@
     },
     "dependencies": {
         "@heroicons/react": "^2.1.5",
+        "lodash": "^4.17.21",
         "preline": "^2.4.1",
         "react-hot-toast": "^2.4.1",
         "react-select": "^5.8.0"

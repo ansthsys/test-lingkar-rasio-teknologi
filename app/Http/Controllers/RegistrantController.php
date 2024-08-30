@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Registrant;
 use App\Http\Requests\StoreRegistrantRequest;
 use App\Http\Requests\UpdateRegistrantRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
@@ -13,10 +14,18 @@ class RegistrantController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $data = Registrant::query()
+            ->with("user")
+            ->when($request->has('search'), function ($query) use ($request) {
+                $search = $request->input('search');
+                $query->whereRaw('LOWER(nama) LIKE ?', ["%" . strtolower($search) . "%"]);
+            })
+            ->paginate(15);
+
         return Inertia::render('Registrant/Index', [
-            'registrants' => Registrant::all(),
+            'registrants' => $data,
         ]);
     }
 
