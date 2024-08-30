@@ -11,6 +11,7 @@ import FileInputComponent from "@/Components/Core/FileInputComponent";
 import { PageProps } from "@/types";
 import useWilayah from "@/Hooks/useWilayah";
 import { Registrant } from "@/types/model";
+import toast from "react-hot-toast";
 
 export default function Form({
     auth,
@@ -107,7 +108,16 @@ export default function Form({
 
         if (pageMode === "show") return;
 
-        post(route("registrants.store"));
+        const toastId = toast.loading("Menyimpan data...");
+
+        post(route("registrants.store"), {
+            onSuccess: () => {
+                toast.success("Pengajuan berhasil dibuat", { id: toastId });
+            },
+            onError: () => {
+                toast.error("Gagal menyimpan data", { id: toastId });
+            },
+        });
     }
 
     useEffect(() => {

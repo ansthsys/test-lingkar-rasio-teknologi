@@ -9,6 +9,7 @@ import {
     PowerIcon,
     UsersIcon,
 } from "@heroicons/react/24/outline";
+import { Toaster } from "react-hot-toast";
 
 export default function AuthenticatedLayout({
     user,
@@ -193,6 +194,7 @@ export default function AuthenticatedLayout({
             <div className="w-full lg:ps-64">
                 <div className="p-4 sm:p-6 space-y-4 sm:space-y-6">
                     {/* Content here */}
+                    <Toaster />
                     {children}
                 </div>
             </div>
