@@ -32,8 +32,7 @@ export default function Create({ auth }: PageProps) {
         loading,
     } = useWilayah();
 
-    const { data, setData, errors } = useForm({
-        user_id: auth.user.id,
+    const { data, setData, post, errors } = useForm({
         nama: "",
         nik: "",
         no_kk: "",
@@ -62,55 +61,66 @@ export default function Create({ auth }: PageProps) {
         });
 
         setData(key as any, v.label);
+
+        switch (key) {
+            case "provinsi":
+                fetchKota(v.value);
+                setData((prev) => {
+                    return {
+                        ...prev,
+                        [key]: v.label,
+                        kota: "",
+                        kecamatan: "",
+                        kelurahan: "",
+                    };
+                });
+                break;
+            case "kota":
+                fetchKecamatan(v.value);
+                setData((prev) => {
+                    return {
+                        ...prev,
+                        [key]: v.label,
+                        kecamatan: "",
+                        kelurahan: "",
+                    };
+                });
+                break;
+            case "kecamatan":
+                fetchKelurahan(v.value);
+                setData((prev) => {
+                    return {
+                        ...prev,
+                        [key]: v.label,
+                        kelurahan: "",
+                    };
+                });
+                break;
+            default:
+                setData((prev) => {
+                    return {
+                        ...prev,
+                        [key]: v.label,
+                    };
+                });
+                break;
+        }
     }
 
     function handleSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
-        console.log(e);
+        post(route("registrants.store"));
     }
 
     useEffect(() => {
         fetchProvinsi();
-
-        if (wilayah.provinsi) {
-            fetchKota(wilayah.provinsi);
-            setData((prev) => {
-                return {
-                    ...prev,
-                    kota: "",
-                    kecamatan: "",
-                    kelurahan: "",
-                };
-            });
-        }
-
-        if (wilayah.kota) {
-            fetchKecamatan(wilayah.kota);
-            setData((prev) => {
-                return {
-                    ...prev,
-                    kecamatan: "",
-                    kelurahan: "",
-                };
-            });
-        }
-
-        if (wilayah.kecamatan) {
-            fetchKelurahan(wilayah.kecamatan);
-            setData((prev) => {
-                return {
-                    ...prev,
-                    kelurahan: "",
-                };
-            });
-        }
     }, [data.provinsi, data.kota, data.kecamatan, data.kelurahan]);
 
     return (
         <AuthenticatedLayout user={auth.user} pageName="Pendaftaran Bantuan">
             <div className="max-w-4xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
                 <div className="bg-white rounded-xl shadow p-4 sm:p-7">
-                    <form onSubmit={handleSubmit}>
+                    <form onSubmit={handleSubmit} method="post">
                         <div className="grid sm:grid-cols-12 gap-2 sm:gap-4 py-8 first:pt-0 last:pb-0 border-t first:border-transparent border-gray-200">
                             <div className="sm:col-span-12">
                                 <h2 className="text-lg font-semibold text-gray-800">
@@ -160,8 +170,7 @@ export default function Create({ auth }: PageProps) {
                                 value={data.umur}
                                 onChange={setData}
                                 errors={errors}
-                                min={25}
-                                minLength={2}
+                                min={0}
                             />
 
                             <SelectInputComponent
@@ -247,7 +256,7 @@ export default function Create({ auth }: PageProps) {
                             />
 
                             <TextInputColumn2Component
-                                title="RT/RW"
+                                title="Nomor RT/RW"
                                 name1="rt"
                                 value1={data.rt}
                                 name2="rw"

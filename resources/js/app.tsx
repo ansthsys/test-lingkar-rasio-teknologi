@@ -39,7 +39,6 @@ createInertiaApp({
 
         router.on("navigate", (event) => {
             HSStaticMethods.autoInit();
-            console.log(`Navigated to ${event.detail.page.url}`);
         });
 
         delete el.dataset.page;

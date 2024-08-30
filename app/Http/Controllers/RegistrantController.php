@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Registrant;
 use App\Http\Requests\StoreRegistrantRequest;
 use App\Http\Requests\UpdateRegistrantRequest;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class RegistrantController extends Controller
@@ -32,7 +33,24 @@ class RegistrantController extends Controller
      */
     public function store(StoreRegistrantRequest $request)
     {
-        //
+        if ($request->file('ktp_url')) {
+            $pathKtp = Storage::put('public', $request->file('ktp_url'));
+            $publicPathKtp = Storage::url($pathKtp);
+        }
+
+        if ($request->file('kk_url')) {
+            $pathKk = Storage::put('public', $request->file('kk_url'));
+            $publicPathKk = Storage::url($pathKk);
+        }
+
+        Registrant::create([
+            ...$request->all(),
+            'user_id' => $request->user()->id,
+            'ktp_url' => $publicPathKtp,
+            'kk_url' => $publicPathKk,
+        ]);
+
+        return to_route("registrants.index");
     }
 
     /**

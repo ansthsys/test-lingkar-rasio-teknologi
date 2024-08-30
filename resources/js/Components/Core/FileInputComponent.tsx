@@ -46,7 +46,6 @@ export default function FileInputComponent({
                     type="file"
                     name={"af-submit-application-" + name}
                     id={"af-submit-application-" + name}
-                    value={value ?? ""}
                     onChange={(e) =>
                         onChange(name, e.target.files?.[0] ?? null)
                     }
