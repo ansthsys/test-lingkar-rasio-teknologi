@@ -174,7 +174,7 @@ export default function AuthenticatedLayout({
                                     <Link
                                         className={
                                             "w-full flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-gray-800 rounded-lg hover:bg-gray-100 " +
-                                            (component === "registrants/Index"
+                                            (component === "Registrant/Index"
                                                 ? "bg-gray-100 focus:outline-none focus:bg-gray-100"
                                                 : "")
                                         }

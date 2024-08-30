@@ -26,6 +26,7 @@
     "dependencies": {
         "@heroicons/react": "^2.1.5",
         "preline": "^2.4.1",
-        "react-hot-toast": "^2.4.1"
+        "react-hot-toast": "^2.4.1",
+        "react-select": "^5.8.0"
     }
 }
