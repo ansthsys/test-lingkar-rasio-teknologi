@@ -6,6 +6,7 @@ interface TextInputComponentProps {
     value: string;
     required?: boolean;
     type: HTMLInputTypeAttribute;
+    pageMode: "create" | "show";
     onChange: (param: any, ...args: any) => void;
     errors: Record<string, string>;
     [key: string]: HTMLAttributes<HTMLInputElement> | any;
@@ -17,6 +18,7 @@ export default function TextInputComponent({
     value,
     type,
     required = true,
+    pageMode,
     onChange,
     errors,
     ...props
@@ -42,6 +44,7 @@ export default function TextInputComponent({
                     name={name}
                     type={type}
                     value={value}
+                    readOnly={pageMode === "show"}
                     onChange={(e) => onChange(name, e.target.value)}
                     onWheel={(e) => e.currentTarget.blur()}
                     className={

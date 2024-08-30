@@ -2,6 +2,7 @@ import { HTMLAttributes, HTMLInputTypeAttribute } from "react";
 
 interface FileInputComponentProps {
     title: string;
+    pageMode: "create" | "show";
     name: string;
     value: HTMLInputTypeAttribute;
     placeholder: string;
@@ -12,6 +13,7 @@ interface FileInputComponentProps {
 }
 
 export default function FileInputComponent({
+    pageMode,
     title,
     name,
     value,
@@ -36,27 +38,39 @@ export default function FileInputComponent({
             </div>
 
             <div className="sm:col-span-9">
-                <label
-                    htmlFor={"af-submit-application-" + name}
-                    className="sr-only"
-                >
-                    {placeholder ?? "Pilih berkas"}
-                </label>
-                <input
-                    type="file"
-                    name={"af-submit-application-" + name}
-                    id={"af-submit-application-" + name}
-                    onChange={(e) =>
-                        onChange(name, e.target.files?.[0] ?? null)
-                    }
-                    className={
-                        "block w-full border shadow-sm rounded-lg text-sm focus:z-10 disabled:opacity-50 disabled:pointer-events-none file:bg-gray-50 file:border-0 file:bg-gray-100 file:me-4 file:py-2 file:px-4 " +
-                        (errors && errors[name]
-                            ? "border-red-500 focus:border-red-500 focus:ring-red-500"
-                            : "border-gray-200 focus:border-blue-500 focus:ring-blue-500")
-                    }
-                    {...props}
-                />
+                {pageMode === "create" ? (
+                    <>
+                        <label
+                            htmlFor={"af-submit-application-" + name}
+                            className="sr-only"
+                        >
+                            {placeholder ?? "Pilih berkas"}
+                        </label>
+                        <input
+                            type="file"
+                            name={"af-submit-application-" + name}
+                            id={"af-submit-application-" + name}
+                            onChange={(e) =>
+                                onChange(name, e.target.files?.[0] ?? null)
+                            }
+                            className={
+                                "block w-full border shadow-sm rounded-lg text-sm focus:z-10 disabled:opacity-50 disabled:pointer-events-none file:bg-gray-50 file:border-0 file:bg-gray-100 file:me-4 file:py-2 file:px-4 " +
+                                (errors && errors[name]
+                                    ? "border-red-500 focus:border-red-500 focus:ring-red-500"
+                                    : "border-gray-200 focus:border-blue-500 focus:ring-blue-500")
+                            }
+                            {...props}
+                        />
+                    </>
+                ) : (
+                    <div className="bg-white">
+                        <img
+                            src={value}
+                            alt={name}
+                            className="object-cover h-56 w-96 rounded-lg border border-gray-200 focus:border-blue-500 focus:ring-blue-500"
+                        />
+                    </div>
+                )}
 
                 {errors && errors[name] && (
                     <p

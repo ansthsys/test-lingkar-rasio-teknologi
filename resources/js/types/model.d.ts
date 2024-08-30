@@ -9,7 +9,7 @@ export interface Registrant {
     ktp_url: string;
     kk_url: string;
     umur: number;
-    kelamin: "L" | "P";
+    kelamin: "Laki-laki" | "Perempuan" | string;
     provinsi: string;
     kota: string;
     kecamatan: string;

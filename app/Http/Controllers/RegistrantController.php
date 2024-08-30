@@ -34,7 +34,9 @@ class RegistrantController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Registrant/Create');
+        return Inertia::render('Registrant/Form', [
+            'pageMode' => 'create',
+        ]);
     }
 
     /**
@@ -67,7 +69,10 @@ class RegistrantController extends Controller
      */
     public function show(Registrant $registrant)
     {
-        //
+        return Inertia::render('Registrant/Form', [
+            'pageMode' => 'show',
+            'registrant' => $registrant,
+        ]);
     }
 
     /**

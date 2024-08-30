@@ -29,7 +29,7 @@ export default function TableBodyComponent({
                         <td className="py-3 ps-4 text-center text-sm font-medium">
                             {paginationResult.from + idx}
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-pretty text-gray-800">
                             {i.nama}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 text-center">
@@ -42,7 +42,7 @@ export default function TableBodyComponent({
                             <span
                                 className={
                                     "inline-flex items-center gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium " +
-                                    (i.kelamin === "L"
+                                    (i.kelamin === "Laki-laki"
                                         ? "bg-blue-100 text-blue-800 dark:bg-blue-800/30 dark:text-blue-500"
                                         : "bg-red-100 text-red-800 dark:bg-red-800/30 dark:text-red-500")
                                 }

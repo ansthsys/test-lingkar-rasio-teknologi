@@ -20,7 +20,7 @@ return new class extends Migration
             $table->text('ktp_url');
             $table->text('kk_url');
             $table->integer('umur');
-            $table->enum('kelamin', ['L', 'P']);
+            $table->enum('kelamin', ['Laki-laki', 'Perempuan']);
             $table->string('provinsi');
             $table->string('kota');
             $table->string('kecamatan');

@@ -27,7 +27,7 @@ class RegistrantFactory extends Factory
             'ktp_url' => $this->faker->imageUrl(),
             'kk_url' => $this->faker->imageUrl(),
             'umur' => $this->faker->numberBetween(25, 60),
-            'kelamin' => $this->faker->randomElement(['L', 'P']),
+            'kelamin' => $this->faker->randomElement(['Laki-laki', 'Perempuan']),
             'provinsi' => $this->faker->state,
             'kota' => $this->faker->city,
             'kecamatan' => $this->faker->streetName,
@@ -35,8 +35,8 @@ class RegistrantFactory extends Factory
             'alamat' => $this->faker->address,
             'rt' => $this->faker->numberBetween(1, 10),
             'rw' => $this->faker->numberBetween(1, 10),
-            'penghasilan_sebelum' => $this->faker->randomFloat(2, 1000000, 10000000),
-            'penghasilan_setelah' => $this->faker->randomFloat(2, 500000, 9000000),
+            'penghasilan_sebelum' => $this->faker->numberBetween(1000000, 10000000),
+            'penghasilan_setelah' => $this->faker->numberBetween(500000, 9000000),
             'alasan' => $this->faker->sentence,
         ];
     }

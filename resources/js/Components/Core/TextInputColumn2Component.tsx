@@ -7,6 +7,7 @@ interface TextInputComponentProps {
     name2: string;
     value2: string;
     required?: boolean;
+    pageMode: "create" | "show";
     type: HTMLInputTypeAttribute;
     onChange: (param: any, ...args: any) => void;
     errors: Record<string, string>;
@@ -14,6 +15,7 @@ interface TextInputComponentProps {
 }
 
 export default function TextInputColumn2Component({
+    pageMode,
     title,
     name1,
     value1,
@@ -47,6 +49,7 @@ export default function TextInputColumn2Component({
                         name={name1}
                         type={type}
                         value={value1}
+                        readOnly={pageMode === "show"}
                         placeholder={props.placeholder1}
                         onChange={(e) => onChange(name1, e.target.value)}
                         onWheel={(e) => e.currentTarget.blur()}
@@ -64,6 +67,7 @@ export default function TextInputColumn2Component({
                         name={name2}
                         type={type}
                         value={value2}
+                        readOnly={pageMode === "show"}
                         placeholder={props.placeholder2}
                         onChange={(e) => onChange(name2, e.target.value)}
                         onWheel={(e) => e.currentTarget.blur()}

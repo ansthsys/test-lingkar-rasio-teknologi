@@ -1,5 +1,5 @@
 import { FormEvent, useEffect, useState } from "react";
-import { useForm } from "@inertiajs/react";
+import { Link, useForm } from "@inertiajs/react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import ComboboxInputComponent from "@/Components/Core/ComboboxInputComponent";
 import SelectInputComponent from "@/Components/Core/SelectInputComponent";
@@ -10,15 +10,14 @@ import SelectAnotherInputComponent from "@/Components/Core/SelectAnotherInputCom
 import FileInputComponent from "@/Components/Core/FileInputComponent";
 import { PageProps } from "@/types";
 import useWilayah from "@/Hooks/useWilayah";
+import { Registrant } from "@/types/model";
 
-export default function Create({ auth }: PageProps) {
+export default function Form({
+    auth,
+    pageMode,
+    registrant,
+}: PageProps<{ pageMode: "create" | "show"; registrant?: Registrant }>) {
     const [isAgree, setIsAgree] = useState(false);
-    const [wilayah, setWilayah] = useState({
-        provinsi: "",
-        kota: "",
-        kecamatan: "",
-        kelurahan: "",
-    });
 
     const {
         fetchKecamatan,
@@ -33,33 +32,29 @@ export default function Create({ auth }: PageProps) {
     } = useWilayah();
 
     const { data, setData, post, errors } = useForm({
-        nama: "",
-        nik: "",
-        no_kk: "",
-        ktp_url: "",
-        kk_url: "",
-        umur: "",
-        kelamin: "",
-        provinsi: "",
-        kota: "",
-        kecamatan: "",
-        kelurahan: "",
-        alamat: "",
-        rt: "",
-        rw: "",
-        penghasilan_sebelum: "",
-        penghasilan_setelah: "",
-        alasan: "",
+        nama: registrant?.nama ?? "",
+        nik: registrant?.nik ?? "",
+        no_kk: registrant?.no_kk ?? "",
+        ktp_url: registrant?.ktp_url ?? "",
+        kk_url: registrant?.kk_url ?? "",
+        umur: registrant?.umur ?? "",
+        kelamin: registrant?.kelamin ?? "",
+        provinsi: registrant?.provinsi ?? "",
+        kota: registrant?.kota ?? "",
+        kecamatan: registrant?.kecamatan ?? "",
+        kelurahan: registrant?.kelurahan ?? "",
+        alamat: registrant?.alamat ?? "",
+        rt: registrant?.rt ?? "",
+        rw: registrant?.rw ?? "",
+        penghasilan_sebelum: registrant?.penghasilan_sebelum ?? "",
+        penghasilan_setelah: registrant?.penghasilan_setelah ?? "",
+        alasan: registrant?.alasan ?? "",
     });
 
     function handleComboboxChange(
         key: string,
         v: { value: string; label: string }
     ) {
-        setWilayah((prev) => {
-            return { ...prev, [key]: v.value };
-        });
-
         setData(key as any, v.label);
 
         switch (key) {
@@ -109,6 +104,9 @@ export default function Create({ auth }: PageProps) {
 
     function handleSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
+
+        if (pageMode === "show") return;
+
         post(route("registrants.store"));
     }
 
@@ -129,6 +127,7 @@ export default function Create({ auth }: PageProps) {
                             </div>
 
                             <TextInputComponent
+                                pageMode={pageMode}
                                 title="Nama Lengkap"
                                 name="nama"
                                 type="text"
@@ -138,6 +137,7 @@ export default function Create({ auth }: PageProps) {
                             />
 
                             <TextInputComponent
+                                pageMode={pageMode}
                                 title="Nomor NIK"
                                 name="nik"
                                 type="number"
@@ -151,6 +151,7 @@ export default function Create({ auth }: PageProps) {
                             />
 
                             <TextInputComponent
+                                pageMode={pageMode}
                                 title="Nomor Kartu Keluarga"
                                 name="no_kk"
                                 type="number"
@@ -164,22 +165,24 @@ export default function Create({ auth }: PageProps) {
                             />
 
                             <TextInputComponent
+                                pageMode={pageMode}
                                 title="Umur"
                                 name="umur"
                                 type="number"
-                                value={data.umur}
+                                value={data.umur as string}
                                 onChange={setData}
                                 errors={errors}
                                 min={0}
                             />
 
                             <SelectInputComponent
+                                pageMode={pageMode}
                                 title="Jenis Kelamin"
                                 name="kelamin"
                                 value={data.kelamin}
                                 options={[
-                                    { value: "L", label: "Laki-laki" },
-                                    { value: "P", label: "Perempuan" },
+                                    { value: "Laki-laki", label: "Laki-laki" },
+                                    { value: "Perempuan", label: "Perempuan" },
                                 ]}
                                 placeholder="Pilih jenis kelamin"
                                 onChange={setData}
@@ -195,6 +198,7 @@ export default function Create({ auth }: PageProps) {
                             </div>
 
                             <ComboboxInputComponent
+                                pageMode={pageMode}
                                 title="Provinsi"
                                 name="provinsi"
                                 placeholder="Pilih provinsi"
@@ -208,6 +212,7 @@ export default function Create({ auth }: PageProps) {
                             />
 
                             <ComboboxInputComponent
+                                pageMode={pageMode}
                                 title="Kota atau Kabupaten"
                                 name="kota"
                                 placeholder="Pilih kota atau kabupaten"
@@ -221,6 +226,7 @@ export default function Create({ auth }: PageProps) {
                             />
 
                             <ComboboxInputComponent
+                                pageMode={pageMode}
                                 title="Kecamatan"
                                 name="kecamatan"
                                 placeholder="Pilih kecamatan"
@@ -234,6 +240,7 @@ export default function Create({ auth }: PageProps) {
                             />
 
                             <ComboboxInputComponent
+                                pageMode={pageMode}
                                 title="Kelurahan atau Desa"
                                 name="kelurahan"
                                 placeholder="Pilih kelurahan atau desa"
@@ -247,6 +254,7 @@ export default function Create({ auth }: PageProps) {
                             />
 
                             <TextInputComponent
+                                pageMode={pageMode}
                                 title="Alamat"
                                 name="alamat"
                                 type="text"
@@ -256,12 +264,13 @@ export default function Create({ auth }: PageProps) {
                             />
 
                             <TextInputColumn2Component
+                                pageMode={pageMode}
                                 title="Nomor RT/RW"
                                 name1="rt"
-                                value1={data.rt}
+                                value1={data.rt as string}
                                 name2="rw"
                                 placeholder1="RT"
-                                value2={data.rw}
+                                value2={data.rw as string}
                                 placeholder2="RW"
                                 type="number"
                                 onChange={setData}
@@ -278,28 +287,31 @@ export default function Create({ auth }: PageProps) {
                             </div>
 
                             <TextInputGroupComponent
+                                pageMode={pageMode}
                                 title="Penghasilan Sebelum Pandemi"
                                 name="penghasilan_sebelum"
                                 type="number"
                                 leading="Rp"
-                                value={data.penghasilan_sebelum}
+                                value={data.penghasilan_sebelum as string}
                                 onChange={setData}
                                 errors={errors}
                                 min={0}
                             />
 
                             <TextInputGroupComponent
+                                pageMode={pageMode}
                                 title="Penghasilan Setelah Pandemi"
                                 name="penghasilan_setelah"
                                 type="number"
                                 leading="Rp"
-                                value={data.penghasilan_setelah}
+                                value={data.penghasilan_setelah as string}
                                 onChange={setData}
                                 errors={errors}
                                 min={0}
                             />
 
                             <SelectAnotherInputComponent
+                                pageMode={pageMode}
                                 title="Alasan Membutuhkan Bantuan"
                                 name="alasan"
                                 value={data.alasan}
@@ -333,6 +345,7 @@ export default function Create({ auth }: PageProps) {
                             </div>
 
                             <FileInputComponent
+                                pageMode={pageMode}
                                 title="Foto KTP"
                                 name="ktp_url"
                                 value={data.ktp_url}
@@ -343,6 +356,7 @@ export default function Create({ auth }: PageProps) {
                             />
 
                             <FileInputComponent
+                                pageMode={pageMode}
                                 title="Foto Kartu Keluarga"
                                 name="kk_url"
                                 value={data.kk_url}
@@ -354,39 +368,59 @@ export default function Create({ auth }: PageProps) {
                         </div>
 
                         <div className="py-8 first:pt-0 last:pb-0 border-t first:border-transparent border-gray-200">
-                            <h2 className="text-lg font-semibold text-gray-800">
-                                Ajukan Pengajuan Bantuan
-                            </h2>
+                            {pageMode === "create" && (
+                                <>
+                                    <h2 className="text-lg font-semibold text-gray-800">
+                                        Ajukan Pengajuan Bantuan
+                                    </h2>
 
-                            <div className="mt-5 flex">
-                                <input
-                                    type="checkbox"
-                                    onChange={(e) => setIsAgree(!isAgree)}
-                                    className="shrink-0 mt-0.5 border-gray-300 rounded text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
-                                    id="af-submit-application-agreement"
-                                />
-                                <label
-                                    htmlFor="af-submit-application-agreement"
-                                    className="text-sm text-gray-500 ms-2"
-                                >
-                                    Saya menyatakan bahwa data yang diisikan
-                                    adalah benar dan siap mempertanggungjawabkan
-                                    apabila ditemukan ketidaksesuaian dalam data
-                                    tersebut.
-                                </label>
-                            </div>
+                                    <div className="mt-5 flex">
+                                        <input
+                                            type="checkbox"
+                                            onChange={(e) =>
+                                                setIsAgree(!isAgree)
+                                            }
+                                            className="shrink-0 mt-0.5 border-gray-300 rounded text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+                                            id="af-submit-application-agreement"
+                                        />
+                                        <label
+                                            htmlFor="af-submit-application-agreement"
+                                            className="text-sm text-gray-500 ms-2"
+                                        >
+                                            Saya menyatakan bahwa data yang
+                                            diisikan adalah benar dan siap
+                                            mempertanggungjawabkan apabila
+                                            ditemukan ketidaksesuaian dalam data
+                                            tersebut.
+                                        </label>
+                                    </div>
+                                </>
+                            )}
                         </div>
 
-                        <button
-                            type="submit"
-                            disabled={!isAgree}
-                            className={
-                                "w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none " +
-                                (!isAgree ? "" : "disabled:cursor-not-allowed")
-                            }
-                        >
-                            Simpan Formulir
-                        </button>
+                        {pageMode === "create" ? (
+                            <button
+                                type="submit"
+                                disabled={!isAgree}
+                                className={
+                                    "w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none " +
+                                    (!isAgree
+                                        ? ""
+                                        : "disabled:cursor-not-allowed")
+                                }
+                            >
+                                Simpan Formulir
+                            </button>
+                        ) : (
+                            <Link
+                                type="button"
+                                as="button"
+                                className="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
+                                href={route("registrants.index")}
+                            >
+                                Kembali
+                            </Link>
+                        )}
                     </form>
                 </div>
             </div>

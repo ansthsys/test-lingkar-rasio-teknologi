@@ -30,7 +30,7 @@ class StoreRegistrantRequest extends FormRequest
             'ktp_url' => ['required', File::image()->max('2mb')],
             'kk_url' => ['required', File::image()->max('2mb')],
             'umur' => ['required', 'integer', 'min:25'],
-            'kelamin' => ['required', 'string', Rule::in(['L', 'P'])],
+            'kelamin' => ['required', 'string', Rule::in(['Laki-laki', 'Perempuan'])],
             'provinsi' => ['required', 'string', 'max:255'],
             'kota' => ['required', 'string', 'max:255'],
             'kecamatan' => ['required', 'string', 'max:255'],

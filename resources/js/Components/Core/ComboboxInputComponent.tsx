@@ -1,6 +1,7 @@
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/24/outline";
 import { ChangeEvent, HTMLAttributes, useEffect, useState } from "react";
 import Select, { GroupBase, OptionsOrGroups } from "react-select";
+import TextInputReadonlyComponent from "./TextInputReadonlyComponent";
 
 interface ComboboxInputComponentProps {
     title: string;
@@ -13,6 +14,7 @@ interface ComboboxInputComponentProps {
     onChange: (param: any, ...args: any) => void;
     placeholder: string;
     required?: boolean;
+    pageMode: "create" | "show";
     disabled: boolean;
     errors: Record<string, string>;
     [key: string]: HTMLAttributes<HTMLInputElement> | any;
@@ -25,6 +27,7 @@ export default function ComboboxInputComponent({
     options,
     onChange,
     errors,
+    pageMode,
     required = true,
     placeholder,
     disabled,
@@ -51,38 +54,46 @@ export default function ComboboxInputComponent({
             </div>
 
             <div className="sm:col-span-9">
-                <Select
-                    className="basic-single"
-                    classNamePrefix="select"
-                    placeholder={placeholder}
-                    isDisabled={disabled}
-                    isSearchable={true}
-                    value={options.find((option) => option.label === value)}
-                    onChange={(e) => onChange(name, e)}
-                    name={name}
-                    options={options}
-                    classNames={{
-                        control: () =>
-                            "h-10 w-full rounded-xl shadow-sm text-sm disabled:opacity-50 disabled:pointer-events-none border-gray-200",
-                    }}
-                    styles={{
-                        control: (styles) => ({
-                            ...styles,
-                            borderRadius: "0.5rem", // rounded-lg
-                            backgroundColor: "",
-                            border: "border-gray-200/50",
-                        }),
-                        input: (provided) => ({
-                            ...provided,
-                            input: {
-                                outline: "none !important",
-                                border: "none !important",
-                                "&focus": { border: "none !important" },
-                                "&active": { border: "none !important" },
-                            },
-                        }),
-                    }}
-                />
+                {pageMode === "create" ? (
+                    <Select
+                        className="basic-single"
+                        classNamePrefix="select"
+                        placeholder={placeholder}
+                        isDisabled={disabled}
+                        isSearchable={true}
+                        value={options.find((option) => option.label === value)}
+                        onChange={(e) => onChange(name, e)}
+                        name={name}
+                        options={options}
+                        classNames={{
+                            control: () =>
+                                "h-10 w-full rounded-xl shadow-sm text-sm disabled:opacity-50 disabled:pointer-events-none border-gray-200",
+                        }}
+                        styles={{
+                            control: (styles) => ({
+                                ...styles,
+                                borderRadius: "0.5rem", // rounded-lg
+                                backgroundColor: "",
+                                border: "border-gray-200/50",
+                            }),
+                            input: (provided) => ({
+                                ...provided,
+                                input: {
+                                    outline: "none !important",
+                                    border: "none !important",
+                                    "&focus": { border: "none !important" },
+                                    "&active": { border: "none !important" },
+                                },
+                            }),
+                        }}
+                    />
+                ) : (
+                    <TextInputReadonlyComponent
+                        title={title}
+                        name={name}
+                        value={value}
+                    />
+                )}
 
                 {errors && errors[name] && (
                     <p

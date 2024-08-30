@@ -5,6 +5,7 @@ interface TextInputGroupComponentProps {
     name: string;
     value: string;
     required?: boolean;
+    pageMode: "create" | "show";
     leading: string;
     type: HTMLInputTypeAttribute;
     onChange: (param: any, ...args: any) => void;
@@ -18,6 +19,7 @@ export default function TextInputGroupComponent({
     value,
     type,
     leading,
+    pageMode,
     required = true,
     onChange,
     errors,
@@ -45,6 +47,7 @@ export default function TextInputGroupComponent({
                         name={name}
                         type={type}
                         value={value}
+                        readOnly={pageMode === "show"}
                         onChange={(e) => onChange(name, e.target.value)}
                         onWheel={(e) => e.currentTarget.blur()}
                         className={
