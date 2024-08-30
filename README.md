@@ -22,27 +22,29 @@ https://lingkar-rasio-teknologi.ansthsys.me
 
 Terdapat 3 akun admin yang sudah dibuat di awal agar bisa menggunakan website:
 
-1. email: `admin1@email.com`, password: `admin1`
-2. email: `admin2@email.com`, password: `admin2`
-3. email: `admin3@email.com`, password: `admin3`
+-   email: `admin1@email.com`, password: `admin1`
+
+-   email: `admin2@email.com`, password: `admin2`
+
+-   email: `admin3@email.com`, password: `admin3`
 
 ## Run Locally
 
 Untuk menjalankan projek secara lokal, diperlukan beberapa langkah sebagai berikut:
 
-1. Clone projek
+Clone projek
 
 ```bash
   git clone https://github.com/ansthsys/test-lingkar-rasio-teknologi.git
 ```
 
-2. Masuk kedalam folder projek
+Masuk kedalam folder projek
 
 ```bash
   cd ./test-lingkar-rasio-teknologi
 ```
 
-3. Install dependencies
+Install dependencies
 
 ```bash
   composer install
@@ -52,37 +54,43 @@ Untuk menjalankan projek secara lokal, diperlukan beberapa langkah sebagai berik
   npm install
 ```
 
-4. Buat environment
+Buat environment
 
 ```bash
 cp .env.example .env
 ```
 
-5. Generate key
+Generate key
 
 ```bash
 php artisan key:generate
 ```
 
-6. Buat file database SQLite
+Tautkan folder storage
+
+```bash
+php artisan storage:link
+```
+
+Buat file database SQLite
 
 ```bash
 touch ./database/database.sqlite
 ```
 
-7. Lakukan migrasi dan seeder
+Lakukan migrasi dan seeder
 
 ```bash
 php artisan migrate:fresh --seed
 ```
 
-8. Jalankan server side
+Jalankan server side
 
 ```bash
 php artisan serve
 ```
 
-9. Buka terminal lain, dan jalankan client side
+Buka terminal lain, dan jalankan client side
 
 ```bash
 npm run dev
