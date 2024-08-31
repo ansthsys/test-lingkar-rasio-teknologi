@@ -16,7 +16,7 @@ Styling: `Tailwind CSS`, `Preline UI`
 
 Website telah di deploy dan dapat diakses pada tautan berikut:
 
-https://lingkar-rasio-teknologi.ansthsys.me
+http://lingkar-rasio-teknologi.ansthsys.me
 
 ### Akun
 
